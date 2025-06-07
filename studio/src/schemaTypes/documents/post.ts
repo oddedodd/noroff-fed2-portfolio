@@ -44,6 +44,11 @@ export default defineType({
 					title: 'Alternative text',
 					type: 'string',
 				}),
+				defineField({
+					name: 'caption',
+					title: 'Caption',
+					type: 'string',
+				}),
 			],
     }),
     defineField({
