@@ -8,10 +8,26 @@ const posts = await getPosts();
 ---
 
 <Layout title="Welcome to Astro.">
-  <div class="bg-blue-50 p-4 rounded-lg mb-6">
-    <h1 class="text-3xl font-bold text-blue-900 mb-2">Tailwind CSS is working! 🎉</h1>
-    <p class="text-blue-700">This styled section confirms that Tailwind CSS has been successfully integrated.</p>
-  </div>
+  <main class="max-w-5xl mx-auto px-6">
+    <section class="text-center py-16">
+      <h2 class="text-5xl font-headline text-primary mb-4">Hello, I’m Jane Doe</h2>
+      <p class="text-lg text-muted mb-8">I’m a front-end developer and graphic designer.</p>
+      <a href="#portfolio" class="bg-secondary text-light px-6 py-3 rounded font-medium hover:bg-primary transition">View Portfolio</a>
+    </section>
+
+    <section id="portfolio" class="py-12">
+      <h3 class="text-3xl font-headline text-primary mb-8">Portfolio</h3>
+      <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 [&>*]:mb-4">
+        {[...Array(Math.ceil(3 / posts.length))].flatMap(() => posts).slice(0, 6).map((post) => (
+          <div class="break-inside-avoid bg-primary rounded shadow text-light p-4">
+            <img src={post.mainImage?.url} alt={post.mainImage?.alt || post.title} class="w-full h-auto mb-2 rounded" />
+            <h4 class="font-bold text-lg">{post.title}</h4>
+            <p class="text-sm text-muted">{post.excerpt}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
   <section>
     {posts.length ? posts.map((post) => <Card post={post} />) : <Welcome />}
   </section>
