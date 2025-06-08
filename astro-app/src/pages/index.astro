@@ -15,14 +15,11 @@ const posts = await getPosts();
   <Social />
   <section class="py-16 px-6">
     <div class="max-w-6xl mx-auto">
-      <h2 class="font-headline text-dark mb-6">Portfolio</h2>
-      <p class="text-lg">
-        Here are some of my projects.
-      </p>
+      <h2 class="font-headline text-4xl text-center font-bold text-dark mb-10">My Work</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.length ? posts.map((post) => <Card post={post} />) : <p class="text-lg text-muted">No posts to show, try later...</p>}
+      </div>
     </div>
-  </section>
-  <section>
-    {posts.length ? posts.map((post) => <Card post={post} />) : <Hero />}
   </section>
 
 </Layout>

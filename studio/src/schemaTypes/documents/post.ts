@@ -56,6 +56,18 @@ export default defineType({
       title: 'Body',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'githubUrl',
+      title: 'GitHub Repository',
+      type: 'url',
+      description: 'Link to the GitHub repository for this project',
+    }),
+    defineField({
+      name: 'liveUrl',
+      title: 'Live Link',
+      type: 'url',
+      description: 'Link to the live version of this project',
+    }),
   ],
   preview: {
     select: {

@@ -1,10 +1,12 @@
 ---
 import type { InferGetStaticParamsType } from "astro";
 import { PortableText } from "astro-portabletext";
+import { portableTextComponents } from "../../components/portableTextComponents";
 import Layout from "../../layouts/Layout.astro";
-import { formatDate } from "../../utils";
 import { urlFor } from "../../utils/image";
 import { getPost, getPosts } from "../../utils/sanity";
+import { Github, Monitor } from '@lucide/astro';
+
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -17,131 +19,49 @@ type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 const { slug } = Astro.params as Params;
 
 const post = await getPost(slug);
+console.log(post);
 ---
 
 <Layout title={post.title!}>
-  <section class="post">
-    {
-      post.mainImage ? (
+  <section class="bg-background pt-2 pb-24 px-6">
+    <div class="max-w-4xl mx-auto bg-light p-6 md:p-10 rounded-lg">
+      {post.mainImage && (
         <img
-          class="post__cover"
+          class="w-full rounded mb-10"
           src={urlFor(post.mainImage).url()}
-          alt="Cover image"
+          alt={post.mainImage.alt || "Project image"}
         />
-      ) : (
-        <div class="post__cover--none" />
-      )
-    }
-    <div class="post__container">
-      <h1 class="post__title">{post.title}</h1>
-      <p class="post__excerpt">{post.excerpt}</p>
-      <p class="post__date">
-        {formatDate(post._createdAt)}
+      )}
+
+      <h1 class="text-3xl md:text-4xl font-black font-headline text-center text-dark mb-4">
+        {post.title}
+      </h1>
+      <p class="text-center text-muted mb-4 font-light font-body">
+        {post.excerpt}
       </p>
-      <div class="post__content">
-        <PortableText value={post.body} />
+
+      <div class="flex justify-center gap-6 mb-8">
+        {post.liveUrl && (
+          <a href={post.liveUrl} class="flex items-center gap-2 text-sm text-dark hover:underline">
+            <Monitor class="w-4 h-4" /> Go to website
+          </a>
+        )}
+        {post.githubUrl && (
+          <a href={post.githubUrl} class="flex items-center gap-2 text-sm text-dark hover:underline">
+            <Github class="w-4 h-4" /> View on github
+          </a>
+        )}
+      </div>
+
+      <div class="prose prose-neutral max-w-none">
+        <PortableText value={post.body} components={portableTextComponents} />
+      </div>
+
+      <div class="text-center mt-10">
+        <a href="/" class="inline-block bg-secondary text-light uppercase px-6 py-3 rounded-lg hover:bg-primary transition">
+          Back to homepage
+        </a>
       </div>
     </div>
   </section>
 </Layout>
-
-<style>
-  .post {
-    width: 100%;
-    margin: var(--space-1) 0 var(--space-4);
-
-    & .post__cover,
-    & .post__cover--none {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    & .post__cover--none {
-      background: var(--black);
-    }
-
-    & .post__container {
-      padding: 0 var(--space-3);
-    }
-
-    & .post__content {
-      font-family: var(--font-family-serif);
-      font-weight: 400;
-      font-size: var(--font-size-4);
-      line-height: var(--line-height-5);
-      letter-spacing: -0.02em;
-      margin-top: var(--space-6);
-
-      /* Targeting tags in PortableText */
-      & blockquote {
-        border-left: 5px solid var(--black);
-        padding-left: var(--space-3);
-        margin-left: var(--space-4);
-      }
-
-      & a {
-        color: var(--blue-600);
-        text-decoration: none;
-      }
-    }
-
-    & .post__title {
-      font-family: var(--font-family-sans);
-      font-size: var(--font-size-7);
-      line-height: var(--line-height-6);
-      margin: var(--space-4) 0;
-      font-weight: 800;
-    }
-
-    & .post__excerpt {
-      font-family: var(--font-family-serif);
-      font-size: var(--font-size-5);
-      line-height: var(--line-height-4);
-      margin-top: 0;
-      font-weight: 400;
-    }
-
-    & .post__date {
-      font-family: var(--font-family-sans);
-      font-weight: 600;
-      font-size: var(--font-size-1);
-      line-height: var(--line-height-1);
-      margin-top: var(--space-4);
-    }
-  }
-
-  @media (min-width: 800px) {
-    .post {
-      & .post__cover,
-      & .post__cover--none {
-        width: 750px;
-        height: 380px;
-      }
-
-      & .post__title {
-        font-size: var(--font-size-10);
-        line-height: var(--line-height-10);
-        margin: var(--space-6) 0 0;
-        letter-spacing: -0.025em;
-      }
-
-      & .post__excerpt {
-        font-size: var(--font-size-5);
-        line-height: var(--line-height-5);
-        margin-top: var(--space-3);
-        margin-bottom: var(--space-3);
-      }
-
-      & .post__date {
-        font-size: var(--font-size-3);
-        line-height: var(--line-height-2);
-        margin-top: var(--space-0);
-      }
-
-      & .post__content {
-        margin-top: var(--space-7);
-      }
-    }
-  }
-</style>
