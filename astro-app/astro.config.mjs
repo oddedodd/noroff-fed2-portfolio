@@ -19,13 +19,13 @@ import tailwindcss from "@tailwindcss/vite";
 
 // Change this depending on your hosting provider (Vercel, Netlify etc)
 // https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter
-import vercel from "@astrojs/vercel";
+import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
   // Server+adapter is required to support embedded Sanity Studio
   output: "server",
-  adapter: vercel(),
+  adapter: netlify(),
   vite: {
     plugins: [tailwindcss()],
     ssr: {

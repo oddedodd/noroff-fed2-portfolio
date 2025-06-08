@@ -1,0 +1,56 @@
+---
+import type { InferGetStaticParamsType } from "astro";
+import { PortableText } from "astro-portabletext";
+import { portableTextComponents } from "../../components/portableTextComponents.jsx";
+import ProjectLinks from "../../components/ProjectLinks.tsx";
+import Layout from "../../layouts/Layout.astro";
+import { urlFor } from "../../utils/image";
+import { getPost, getPosts } from "../../utils/sanity";
+
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug.current },
+  }));
+}
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+const { slug } = Astro.params as Params;
+
+const post = await getPost(slug);
+console.log(post);
+---
+
+<Layout title={post.title!}>
+  <section class="bg-background pt-2 pb-24 px-6">
+    <div class="max-w-4xl mx-auto bg-light p-6 md:p-10 rounded-lg">
+      {post.mainImage && (
+        <img
+          class="w-full rounded mb-10"
+          src={urlFor(post.mainImage).url()}
+          alt={post.mainImage.alt || "Project image"}
+        />
+      )}
+
+      <h1 class="text-3xl md:text-4xl font-black font-headline text-center text-dark mb-4">
+        {post.title}
+      </h1>
+      <p class="text-center text-muted mb-4 font-light font-body">
+        {post.excerpt}
+      </p>
+
+      <ProjectLinks liveUrl={post.liveUrl} githubUrl={post.githubUrl} client:load />
+
+      <div class="prose prose-neutral max-w-none">
+        <PortableText value={post.body} components={portableTextComponents as any} />
+      </div>
+
+      <div class="text-center mt-10">
+        <a href="/" class="inline-block bg-secondary text-light uppercase px-6 py-3 rounded-lg hover:bg-primary transition">
+          Back to homepage
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

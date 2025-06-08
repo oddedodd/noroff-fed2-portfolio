@@ -1,0 +1,25 @@
+---
+import Card from "../components/Card.astro";
+import Hero from "../components/Hero.astro";
+import Welcome from "../components/Welcome.astro";
+import Social from "../components/Social.astro";
+import Layout from "../layouts/Layout.astro";
+import { getPosts } from "../utils/sanity";
+
+const posts = await getPosts();
+---
+
+<Layout title="Welcome to my Portfolio">
+  <Hero slot="hero" />
+  <Welcome />
+  <Social />
+  <section class="py-16 px-6" id="portfolio">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-headline text-4xl text-center font-bold text-dark mb-10">My Work</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.length ? posts.map((post) => <Card post={post} />) : <p class="text-lg text-muted">No posts to show, try later...</p>}
+      </div>
+    </div>
+  </section>
+
+</Layout>
