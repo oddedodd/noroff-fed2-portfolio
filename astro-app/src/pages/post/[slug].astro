@@ -26,11 +26,16 @@ console.log(post);
   <section class="bg-background pt-2 pb-24 px-6">
     <div class="max-w-4xl mx-auto bg-light p-6 md:p-10 rounded-lg">
       {post.mainImage && (
-        <img
-          class="w-full rounded mb-10"
-          src={urlFor(post.mainImage).url()}
-          alt={post.mainImage.alt || "Project image"}
-        />
+        <>
+          <img
+            class="w-full rounded mb-2"
+            src={urlFor(post.mainImage).url()}
+            alt={post.mainImage.alt || "Project image"}
+          />
+          <p class="text-center text-muted mb-8 font-light italic">
+            {post.mainImage.caption || "Project image"}
+          </p>
+        </>
       )}
 
       <h1 class="text-3xl md:text-4xl font-black font-headline text-center text-dark mb-4">
