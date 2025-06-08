@@ -28,6 +28,9 @@ export default defineConfig({
   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      external: ['@lucide/astro', 'lucide-react'],
+    },
   },
   integrations: [
     sanity({

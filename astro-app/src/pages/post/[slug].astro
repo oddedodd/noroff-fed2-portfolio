@@ -1,11 +1,11 @@
 ---
 import type { InferGetStaticParamsType } from "astro";
 import { PortableText } from "astro-portabletext";
-import { portableTextComponents } from "../../components/portableTextComponents";
+import { portableTextComponents } from "../../components/portableTextComponents.jsx";
+import ProjectLinks from "../../components/ProjectLinks.tsx";
 import Layout from "../../layouts/Layout.astro";
 import { urlFor } from "../../utils/image";
 import { getPost, getPosts } from "../../utils/sanity";
-import { Github, Monitor } from '@lucide/astro';
 
 
 export async function getStaticPaths() {
@@ -40,21 +40,10 @@ console.log(post);
         {post.excerpt}
       </p>
 
-      <div class="flex justify-center gap-6 mb-8">
-        {post.liveUrl && (
-          <a href={post.liveUrl} class="flex items-center gap-2 text-sm text-dark hover:underline">
-            <Monitor class="w-4 h-4" /> Go to website
-          </a>
-        )}
-        {post.githubUrl && (
-          <a href={post.githubUrl} class="flex items-center gap-2 text-sm text-dark hover:underline">
-            <Github class="w-4 h-4" /> View on github
-          </a>
-        )}
-      </div>
+      <ProjectLinks liveUrl={post.liveUrl} githubUrl={post.githubUrl} client:load />
 
       <div class="prose prose-neutral max-w-none">
-        <PortableText value={post.body} components={portableTextComponents} />
+        <PortableText value={post.body} components={portableTextComponents as any} />
       </div>
 
       <div class="text-center mt-10">
