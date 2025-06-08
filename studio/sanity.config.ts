@@ -17,7 +17,7 @@ if (!dataset) {
 
 export default defineConfig({
   name: 'sanity-template-astro-clean',
-  title: 'Sanity Astro Starter',
+  title: 'Odde Noroff Portfolio',
   projectId,
   dataset,
   plugins: [structureTool(), visionTool()],
