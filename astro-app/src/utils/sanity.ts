@@ -26,4 +26,6 @@ export interface Post {
   excerpt?: string;
   mainImage?: ImageAsset & { alt?: string };
   body: PortableTextBlock[];
+  githubUrl?: string;
+  liveUrl?: string;
 }
